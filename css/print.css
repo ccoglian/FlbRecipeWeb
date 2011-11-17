@@ -1,0 +1,9 @@
+/* 
+    Created on : Feb 4, 2011, 4:20:21 PM
+    Author     : ccoglianese
+*/
+
+div.scrollframe {
+    max-height: none;
+    overflow: visible;
+}

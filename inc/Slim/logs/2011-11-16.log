@@ -1,0 +1,26 @@
+[ERROR] 2011-11-16T15:26:41-05:00 - exception 'fNotFoundException' with message 'The Recipe requested could not be found' in C:\projects\flbapp\flbrecipeweb\inc\flourish\fActiveRecord.php:1875
+Stack trace:
+#0 C:\projects\flbapp\flbrecipeweb\inc\flourish\fActiveRecord.php(1168): fActiveRecord->load()
+#1 C:\projects\flbapp\flbrecipeweb\index.php(53): fActiveRecord->__construct('42')
+#2 [internal function]: {closure}('42')
+#3 C:\projects\flbapp\flbrecipeweb\Slim\Route.php(392): call_user_func_array(Object(Closure), Array)
+#4 C:\projects\flbapp\flbrecipeweb\Slim\Slim.php(1052): Slim_Route->dispatch()
+#5 C:\projects\flbapp\flbrecipeweb\index.php(68): Slim->run()
+#6 {main}
+[ERROR] 2011-11-16T15:33:46-05:00 - exception 'ErrorException' with message 'Undefined variable: obj' in C:\projects\flbapp\flbrecipeweb\index.php:51
+Stack trace:
+#0 C:\projects\flbapp\flbrecipeweb\index.php(51): Slim::handleErrors(8, 'Undefined varia...', 'C:\projects\flb...', 51, Array)
+#1 [internal function]: {closure}('1')
+#2 C:\projects\flbapp\flbrecipeweb\Slim\Route.php(392): call_user_func_array(Object(Closure), Array)
+#3 C:\projects\flbapp\flbrecipeweb\Slim\Slim.php(1052): Slim_Route->dispatch()
+#4 C:\projects\flbapp\flbrecipeweb\index.php(69): Slim->run()
+#5 {main}
+[ERROR] 2011-11-16T15:36:00-05:00 - exception 'fProgrammerException' with message 'Unknown method, values(), called' in C:\projects\flbapp\flbrecipeweb\inc\flourish\fActiveRecord.php:993
+Stack trace:
+#0 C:\projects\flbapp\flbrecipeweb\index.php(52): fActiveRecord->__call('values', Array)
+#1 C:\projects\flbapp\flbrecipeweb\index.php(52): Recipe->values()
+#2 [internal function]: {closure}('1')
+#3 C:\projects\flbapp\flbrecipeweb\Slim\Route.php(392): call_user_func_array(Object(Closure), Array)
+#4 C:\projects\flbapp\flbrecipeweb\Slim\Slim.php(1052): Slim_Route->dispatch()
+#5 C:\projects\flbapp\flbrecipeweb\index.php(70): Slim->run()
+#6 {main}
