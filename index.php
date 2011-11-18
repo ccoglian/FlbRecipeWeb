@@ -56,6 +56,15 @@ $app->get('/recipe/:id', function ($id) use($app) {
     ));
 });
 
+$app->get('/search/:key', function ($key) use($app) {
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+    $app->render('raw.php', array(
+        'view' => 'search',
+        'key' => $key
+    ));
+});
+
 //POST route
 //$app->post('/person', function () {
     //Create new Person

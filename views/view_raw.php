@@ -1,1 +1,1 @@
-<?php echo json_encode($obj->getValues()); ?>
+<?php echo $obj->toJSON(); ?>
