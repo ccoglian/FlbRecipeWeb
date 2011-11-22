@@ -11,7 +11,7 @@
  */
 class MyActiveRecord extends fActiveRecord {
     protected function configure() {
-        fORMDate::configureDateCreatedColumn($this, 'from_date');
+//        fORMDate::configureDateCreatedColumn($this, 'from_date');
 //        fORMDate::configureDateUpdatedColumn($this, 'last_updated');
 //        fORM::registerHookCallback($this, 'pre::validate()', 'MyActiveRecord::validateActive');
     }

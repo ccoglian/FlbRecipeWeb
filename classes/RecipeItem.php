@@ -2,6 +2,6 @@
 /**
  * @author ccoglianese
  */
-class Recipe extends MyActiveRecord {
+class RecipeItem extends MyActiveRecord {
 }
 ?>

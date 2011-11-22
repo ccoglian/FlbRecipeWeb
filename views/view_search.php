@@ -2,9 +2,10 @@
 global $mysql_db;
 
 $results = array();
-$resultSet = $mysql_db->query("SELECT *
-                               FROM flb.recipes
-                               WHERE MATCH (title, body)
+$resultSet = $mysql_db->query("SELECT r.*
+                               FROM   flb.recipes r
+                                      JOIN flb.recipe_search s ON r.recipe_id = s.recipe_id
+                               WHERE MATCH (full_recipe_text)
                                AGAINST (%s IN BOOLEAN MODE)", $key);
 
 foreach ($resultSet as $obj) {
