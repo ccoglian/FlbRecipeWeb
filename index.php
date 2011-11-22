@@ -49,6 +49,8 @@ $app->get('/', function () {
 
 $app->get('/recipe/:id', function ($id) use($app) {
     $recipe = new Recipe($id);
+    $recipe_values = $recipe->getValues();
+    $recipe_values['image_url'] = 'http://' . $_SERVER['SERVER_NAME'] . "/" . $recipe->getImageFilename();
     $records = fRecordSet::build('RecipeItem', array('recipe_id=' => $id));
     $records->precreateUnits();
     $items = array();
@@ -64,7 +66,7 @@ $app->get('/recipe/:id', function ($id) use($app) {
     }
     $app->render('raw.php', array(
         'view' => 'raw',
-        'obj' => array('recipe' => $recipe->getValues(), 'recipe_items' => $items, 'recipe_reminders' => $reminders)
+        'obj' => array('recipe' => $recipe_values, 'recipe_items' => $items, 'recipe_reminders' => $reminders)
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
