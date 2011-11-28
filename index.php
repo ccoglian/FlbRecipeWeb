@@ -48,37 +48,21 @@ $app->get('/', function () {
 });
 
 $app->get('/recipe/:id', function ($id) use($app) {
-    $recipe = new Recipe($id);
-    $recipe_values = $recipe->getValues();
-    $recipe_values['image_url'] = 'http://' . $_SERVER['SERVER_NAME'] . "/" . $recipe->getImageFilename();
-    $records = fRecordSet::build('RecipeItem', array('recipe_id=' => $id));
-    $records->precreateUnits();
-    $items = array();
-    foreach ($records as $record) {
-        $values = $record->getValues();
-        $values['unit'] = $record->createUnit()->getValues();
-        $items[] = $values;
-    }
-    $records = fRecordSet::build('RecipeReminder', array('recipe_id=' => $id));
-    $reminders = array();
-    foreach ($records as $record) {
-        $reminders[] = $record->getValues();
-    }
     $app->render('raw.php', array(
         'view' => 'raw',
-        'obj' => array('recipe' => $recipe_values, 'recipe_items' => $items, 'recipe_reminders' => $reminders)
+        'obj' => new RecipeModel($id)
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
 });
 
 $app->get('/search/:key', function ($key) use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new SearchModel($key)
+    ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
-    $app->render('raw.php', array(
-        'view' => 'search',
-        'key' => $key
-    ));
 });
 
 //POST route

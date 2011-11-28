@@ -10,6 +10,7 @@
 spl_autoload_register('project_autoloader');
 function project_autoloader($class_name) {
     $inc_path = array($_SERVER['DOCUMENT_ROOT'] . "/classes/$class_name.php",
+        $_SERVER['DOCUMENT_ROOT'] . "/models/$class_name.php",
         $_SERVER['DOCUMENT_ROOT'] . "/inc/flourish/$class_name.php");
 
     foreach ($inc_path as $file) {
