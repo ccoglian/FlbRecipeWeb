@@ -65,6 +65,24 @@ $app->get('/search/:key', function ($key) use($app) {
     $app->response()->header('Access-Control-Allow-Origin', '*');
 });
 
+$app->map('/login', function () use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new LoginModel()
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
+$app->map('/signup', function () use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new SignupModel()
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
 //POST route
 //$app->post('/person', function () {
     //Create new Person
