@@ -2,20 +2,16 @@
 /**
  * @author ccoglianese
  */
-class LoginModel {
+class DeleteMakesModel {
     private $errors = array();
 
-    public function __construct() {
+    public function __construct($id) {
         try {
-            $user = new User(array('email' => fRequest::get('email')));
-            if (fCryptography::checkPasswordHash(fRequest::get('password'), $user->getPassword())) {
-                return;
-            }
+            $make = new ScheduledMake($id);
+            $make->delete();
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
         }
-
-        $this->errors['email'] = 'Email address or password incorrect. Please try again.';
     }
 
     // Mimic flourish ActiveRecord

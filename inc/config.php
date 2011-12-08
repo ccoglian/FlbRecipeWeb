@@ -100,34 +100,11 @@ function no_break($str) {
 }
 
 fAuthorization::setLoginPage('/login/');
+fTimestamp::setDefaultTimezone('GMT');
 
 // MySQL setup
 $mysql_db  = new fDatabase('mysql', 'flb', 'flb', 'WelcomeFlbSinger', 'localhost');
 //$mysql_db->enableDebugging(TRUE);
 fORMDatabase::attach($mysql_db);
-//$user_db  = new fDatabase('mysql', 'user', 'root', 'WelcomeSinger', 'localhost');
-//fORMDatabase::attach($user_db);
-//fORM::mapClassToTable('User', 'users');
 fORMJSON::extend(); // adds the toJSON method to fActiveRecord
-
-// l10n/i18n setup
-include('siteconfig.php');
-
-$template = new fTemplating();
-$template->set('header', 'header.php');
-$template->set('site_name', $TEXT['site_name']);
-$template->set('footer', 'footer.php');
-$template->set('page_closer', 'page_closer.php');
-$template->add('js', '/js/jquery.min.js');
-$template->add('js', '/js/jquery-ui-1.8.9.custom.min.js');
-$template->add('js', '/js/jquery.tablesorter.min.js');
-$template->add('js', '/js/jquery.cookie.js');
-$template->add('js', '/js/jquery.iframe-auto-height.plugin.js');
-$template->add('js', '/js/facebox.js');
-$template->add('js', '/js/tss.js');
-$template->add('css', '/css/reset.css');
-$template->add('css', '/css/jquery-ui-1.8.9.custom.css');
-$template->add('css', '/css/facebox.css');
-$template->add('css', '/css/style.css');
-$template->add('css', array('path' => '/css/print.css', 'media' => 'print'));
 ?>

@@ -65,6 +65,33 @@ $app->get('/search/:key', function ($key) use($app) {
     $app->response()->header('Access-Control-Allow-Origin', '*');
 });
 
+$app->get('/makes/:email', function ($email) use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new MakesModel($email)
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+});
+
+$app->map('/deletemake/:id', function ($id) use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new DeleteMakesModel($id)
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
+$app->map('/makeit', function () use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new MakeitModel()
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
 $app->map('/login', function () use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
