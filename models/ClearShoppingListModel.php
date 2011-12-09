@@ -15,6 +15,11 @@ class ClearShoppingListModel {
                     "DELETE
                      FROM   shopping_list_items
                      WHERE  user_id = %i", $user->getUserId());
+
+            $mysql_db->execute(
+                    "DELETE
+                     FROM   extra_shopping_list_items
+                     WHERE  user_id = %i", $user->getUserId());
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
         }

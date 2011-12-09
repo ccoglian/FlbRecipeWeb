@@ -101,10 +101,28 @@ $app->map('/shoppinglist/add/:id', function ($id) use($app) {
     $app->response()->header('Access-Control-Allow-Origin', '*');
 })->via('GET', 'POST');
 
+$app->map('/shoppinglist/addextra/', function () use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new AddExtraToShoppingListModel()
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
 $app->map('/shoppinglist/toggleactive/:id', function ($id) use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
         'obj' => new ToggleShoppingListItemActiveModel($id)
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
+$app->map('/shoppinglist/toggleactive/extra/:id', function ($id) use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new ToggleExtraShoppingListItemActiveModel($id)
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
