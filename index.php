@@ -47,37 +47,73 @@ $app->get('/', function () {
     echo "Home!";
 });
 
-$app->get('/recipe/:id', function ($id) use($app) {
+$app->map('/recipe/:id', function ($id) use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
         'obj' => new RecipeModel($id)
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
-});
+})->via('GET', 'POST');
 
-$app->get('/search/:key', function ($key) use($app) {
+$app->map('/search/:key', function ($key) use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
         'obj' => new SearchModel($key)
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
-});
+})->via('GET', 'POST');
 
-$app->get('/makes/:email', function ($email) use($app) {
+$app->map('/makes/:email', function ($email) use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
         'obj' => new MakesModel($email)
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
-});
+})->via('GET', 'POST');
 
 $app->map('/deletemake/:id', function ($id) use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
         'obj' => new DeleteMakesModel($id)
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
+$app->map('/shoppinglist/:email', function ($email) use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new ShoppingListModel($email)
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
+$app->map('/shoppinglist/add/:id', function ($id) use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new AddToShoppingListModel($id)
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
+$app->map('/shoppinglist/toggleactive/:id', function ($id) use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new ToggleShoppingListItemActiveModel($id)
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
+$app->map('/shoppinglist/clear/:email', function ($email) use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new ClearShoppingListModel($email)
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
