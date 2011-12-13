@@ -2,19 +2,16 @@
 /**
  * @author ccoglianese
  */
-class AddExtraToShoppingListModel {
+class UnitsModel {
     private $errors = array();
     private $results = array();
 
     public function __construct() {
         try {
-            $user_id = fRequest::get('user_id');
-            $item_name = fRequest::get('item_name');
-            $extraItem = new ExtraShoppingListItem();
-            $extraItem->setItemName($item_name);
-            $extraItem->setUserId($user_id);
-            $extraItem->store();
-            $this->results[] = $extraItem->getValues();
+            $records = fRecordSet::build('Unit', array(), array('unit_name' => 'asc'));
+            foreach ($records as $record) {
+                $this->results[] = $record->getValues();
+            }
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
         }

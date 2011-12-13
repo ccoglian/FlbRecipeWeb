@@ -7,10 +7,10 @@ class MakeitModel {
 
     public function __construct() {
         try {
-            $user = new User(array('email' => fRequest::get('email')));
+            $user_id = fRequest::get('user_id');
             $make = new ScheduledMake(ModelUtil::getValueOrNull(fRequest::get('scheduled_make_id')));
             $make->populate();
-            $make->setUserId($user->getUserId());
+            $make->setUserId($user_id);
             $this->errors = $make->validate(TRUE, TRUE);
 
             if (!$this->errors) {

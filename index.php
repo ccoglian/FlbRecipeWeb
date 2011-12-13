@@ -42,15 +42,28 @@ $app = new Slim(array(
  * The routes below work with PHP >= 5.3.
  */
 
-//GET routes
-$app->get('/', function () {
-    echo "Home!";
-});
-
 $app->map('/recipe/:id', function ($id) use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
         'obj' => new RecipeModel($id)
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
+$app->map('/recipe/search/:id', function ($id) use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new RecipeSearchModel($id)
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
+$app->map('/recipe/save/', function () use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new RecipeSaveModel()
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
@@ -65,10 +78,10 @@ $app->map('/search/:key', function ($key) use($app) {
     $app->response()->header('Access-Control-Allow-Origin', '*');
 })->via('GET', 'POST');
 
-$app->map('/makes/:email', function ($email) use($app) {
+$app->map('/makes/:user_id', function ($user_id) use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
-        'obj' => new MakesModel($email)
+        'obj' => new MakesModel($user_id)
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
@@ -83,10 +96,10 @@ $app->map('/deletemake/:id', function ($id) use($app) {
     $app->response()->header('Access-Control-Allow-Origin', '*');
 })->via('GET', 'POST');
 
-$app->map('/shoppinglist/:email', function ($email) use($app) {
+$app->map('/shoppinglist/:user_id', function ($user_id) use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
-        'obj' => new ShoppingListModel($email)
+        'obj' => new ShoppingListModel($user_id)
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
@@ -128,10 +141,10 @@ $app->map('/shoppinglist/toggleactive/extra/:id', function ($id) use($app) {
     $app->response()->header('Access-Control-Allow-Origin', '*');
 })->via('GET', 'POST');
 
-$app->map('/shoppinglist/clear/:email', function ($email) use($app) {
+$app->map('/shoppinglist/clear/:user_id', function ($user_id) use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
-        'obj' => new ClearShoppingListModel($email)
+        'obj' => new ClearShoppingListModel($user_id)
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
@@ -164,10 +177,14 @@ $app->map('/signup', function () use($app) {
     $app->response()->header('Access-Control-Allow-Origin', '*');
 })->via('GET', 'POST');
 
-//POST route
-//$app->post('/person', function () {
-    //Create new Person
-//});
+$app->map('/units', function () use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new UnitsModel()
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
 
 /**
  * Step 4: Run the Slim application

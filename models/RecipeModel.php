@@ -26,8 +26,8 @@ class RecipeModel {
                 $this->default_reminders[] = $record->getValues();
             }
 
-            $user = new User(array('email' => fRequest::get('email')));
-            $filter = array('user_id=' => $user->getUserId(), 'server_time>=' => new fTimestamp());
+            $user_id = fRequest::get('user_id');
+            $filter = array('user_id=' => $user_id, 'recipe_id=' => $recipe_id, 'server_time>=' => new fTimestamp());
             $order_by = array('local_time' => 'asc');
             $limit = 1;
             $records = fRecordSet::build('ScheduledMake', $filter, $order_by, $limit);

@@ -2,19 +2,14 @@
 /**
  * @author ccoglianese
  */
-class AddToShoppingListModel {
+class RecipeSearchModel {
     private $errors = array();
+    private $results = array();
 
     public function __construct($recipe_id) {
         try {
-            $items = fRecordSet::build('RecipeItem', array('recipe_id=' => $recipe_id));
-            $user_id = fRequest::get('user_id');
-            foreach ($items as $item) {
-                $shoppingListItem = new ShoppingListItem();
-                $shoppingListItem->setRecipeItemId($item->getRecipeItemId());
-                $shoppingListItem->setUserId($user_id);
-                $shoppingListItem->store();
-            }
+            $recipe_search = new RecipeSearch($recipe_id);
+            $this->results = $recipe_search->getValues();
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
         }
@@ -24,6 +19,7 @@ class AddToShoppingListModel {
     public function toJSON() {
         $all_values = array('success' => !$this->errors,
                             'errors' => $this->errors,
+                            'results' => $this->results,
                             );
         
         return json_encode($all_values);

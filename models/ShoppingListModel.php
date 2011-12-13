@@ -6,10 +6,8 @@ class ShoppingListModel {
     private $errors = array();
     private $results = array();
 
-    public function __construct($email) {
+    public function __construct($user_id) {
         try {
-            $user = new User(array('email' => $email));
-            $user_id = $user->getUserId();
             global $mysql_db;
 
             $resultSet = $mysql_db->query(

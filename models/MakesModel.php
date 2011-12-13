@@ -6,10 +6,9 @@ class MakesModel {
     private $errors = array();
     private $results = array();
 
-    public function __construct($email) {
+    public function __construct($user_id) {
         try {
-            $user = new User(array('email' => $email));
-            $filter = array('user_id=' => $user->getUserId());
+            $filter = array('user_id=' => $user_id);
             $order_by = array('local_time' => 'desc');
             $records = fRecordSet::build('ScheduledMake', $filter, $order_by);
             $records->precreateRecipes();

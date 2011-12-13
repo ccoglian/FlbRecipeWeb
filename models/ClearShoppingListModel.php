@@ -5,21 +5,19 @@
 class ClearShoppingListModel {
     private $errors = array();
 
-    public function __construct($email) {
+    public function __construct($user_id) {
         try {
             global $mysql_db;
-
-            $user = new User(array('email' => $email));
 
             $mysql_db->execute(
                     "DELETE
                      FROM   shopping_list_items
-                     WHERE  user_id = %i", $user->getUserId());
+                     WHERE  user_id = %i", $user_id);
 
             $mysql_db->execute(
                     "DELETE
                      FROM   extra_shopping_list_items
-                     WHERE  user_id = %i", $user->getUserId());
+                     WHERE  user_id = %i", $user_id);
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
         }
