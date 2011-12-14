@@ -16,11 +16,12 @@ class MakeitModel {
             if (!$this->errors) {
                 $make->store();
 
-                $reminders = fRequest::get('reminders');
+                $reminders = fRequest::get('reminders', NULL, array());
                 foreach ($reminders as $reminder) {
                     $scheduledReminder = new ScheduledReminder(ModelUtil::getValueOrNull($reminder['scheduled_reminder_id']));
                     $scheduledReminder->setScheduledMakeId($make->getScheduledMakeId());
                     $scheduledReminder->setRecipeReminderId($reminder['recipe_reminder_id']);
+                    $scheduledReminder->setDescription($reminder['description']);
                     $scheduledReminder->setLocalTime($reminder['local_time']);
                     $scheduledReminder->setServerTime($reminder['server_time']);
                     $scheduledReminder->store();
@@ -28,6 +29,11 @@ class MakeitModel {
             }
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
+            Slim::getInstance()->getLog()->error($e);
+        }
+
+        foreach ($this->errors as $key => $value) {
+            Slim::getInstance()->getLog()->warn("$key: $value");
         }
     }
 

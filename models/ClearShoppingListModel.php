@@ -7,19 +7,24 @@ class ClearShoppingListModel {
 
     public function __construct($user_id) {
         try {
-            global $mysql_db;
+            global $db;
 
-            $mysql_db->execute(
+            $db->execute(
                     "DELETE
                      FROM   shopping_list_items
                      WHERE  user_id = %i", $user_id);
 
-            $mysql_db->execute(
+            $db->execute(
                     "DELETE
                      FROM   extra_shopping_list_items
                      WHERE  user_id = %i", $user_id);
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
+            Slim::getInstance()->getLog()->error($e);
+        }
+
+        foreach ($this->errors as $key => $value) {
+            Slim::getInstance()->getLog()->warn("$key: $value");
         }
     }
 

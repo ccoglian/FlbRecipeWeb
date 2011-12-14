@@ -2,14 +2,19 @@
 /**
  * @author ccoglianese
  */
-class ToggleExtraShoppingListItemActiveModel {
+class UnitAddModel {
     private $errors = array();
+    private $results = array();
 
-    public function __construct($extra_shopping_list_item_id) {
+    public function __construct() {
         try {
-            $item = new ExtraShoppingListItem($extra_shopping_list_item_id);
-            $item->setActive($item->getActive() ? 0 : 1);
-            $item->store();
+            $unit_name = fRequest::get('unit_name');
+            $unit_name_plural = fRequest::get('unit_name_plural');
+            $unit = new Unit();
+            $unit->setUnitName($unit_name);
+            $unit->setUnitNamePlural($unit_name_plural);
+            $unit->store();
+            $this->results[] = $unit->getValues();
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
             Slim::getInstance()->getLog()->error($e);
@@ -24,6 +29,7 @@ class ToggleExtraShoppingListItemActiveModel {
     public function toJSON() {
         $all_values = array('success' => !$this->errors,
                             'errors' => $this->errors,
+                            'results' => $this->results,
                             );
         
         return json_encode($all_values);

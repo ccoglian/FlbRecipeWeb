@@ -12,6 +12,11 @@ class RecipeSearchModel {
             $this->results = $recipe_search->getValues();
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
+            Slim::getInstance()->getLog()->error($e);
+        }
+
+        foreach ($this->errors as $key => $value) {
+            Slim::getInstance()->getLog()->warn("$key: $value");
         }
     }
 

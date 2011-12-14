@@ -4,40 +4,50 @@
  */
 class RecipeModel {
     private $errors = array();
-    private $recipe;
-    private $items = array();
-    private $default_reminders = array();
-    private $scheduled_make = array();
+    private $results = array();
 
     public function __construct($recipe_id) {
         try {
-            $this->recipe = new Recipe($recipe_id);
+            $recipe = new Recipe($recipe_id);
+            $recipe_values = $recipe->getValues();
+            if ($recipe->getImageFilename())
+                $recipe_values['image_url'] = 'http://' . $_SERVER['SERVER_NAME'] . "/" . $recipe->getImageFilename();
+            $this->results['recipe'] = $recipe_values;
 
-            $records = fRecordSet::build('RecipeItem', array('recipe_id=' => $recipe_id));
+            $filter = array('recipe_id=' => $recipe_id);
+            $order_by = array('order_key' => 'asc');
+            $records = fRecordSet::build('RecipeItem', $filter, $order_by);
             $records->precreateUnits();
+            $items = array();
             foreach ($records as $record) {
                 $values = $record->getValues();
                 $values['unit'] = $record->createUnit()->getValues();
-                $this->items[] = $values;
+                $items[] = $values;
             }
+            $this->results['recipe_items'] = $items;
 
-            $records = fRecordSet::build('RecipeReminder', array('recipe_id=' => $recipe_id));
+            $filter = array('recipe_id=' => $recipe_id);
+            $order_by = array('hours_ahead' => 'desc', 'recipe_reminder_id' => 'asc');
+            $records = fRecordSet::build('RecipeReminder', $filter, $order_by);
+            $default_reminders = array();
             foreach ($records as $record) {
-                $this->default_reminders[] = $record->getValues();
+                $default_reminders[] = $record->getValues();
             }
+            $this->results['default_reminders'] = $default_reminders;
 
             $user_id = fRequest::get('user_id');
             $filter = array('user_id=' => $user_id, 'recipe_id=' => $recipe_id, 'server_time>=' => new fTimestamp());
             $order_by = array('local_time' => 'asc');
             $limit = 1;
             $records = fRecordSet::build('ScheduledMake', $filter, $order_by, $limit);
+            $scheduled_make = array();
 
             if ($records->count()) {
                 $record = $records[0];
                 $values = $record->getValues();
                 $values['local_time'] = "" . $values['local_time'];
                 $values['server_time'] = "" . $values['server_time'];
-                $this->scheduled_make['make'] = $values;
+                $scheduled_make['make'] = $values;
                 $filter = array('scheduled_make_id=' => $record->getScheduledMakeId());
                 $reminderRecords = fRecordSet::build('ScheduledReminder', $filter);
                 $scheduledReminders = array();
@@ -47,24 +57,24 @@ class RecipeModel {
                     $values['server_time'] = "" . $values['server_time'];
                     $scheduledReminders[] = $values;
                 }
-                $this->scheduled_make['reminders'] = $scheduledReminders;
+                $scheduled_make['reminders'] = $scheduledReminders;
+                $this->results['scheduled_make'] = $scheduled_make;
             }
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
+            Slim::getInstance()->getLog()->error($e);
+        }
+
+        foreach ($this->errors as $key => $value) {
+            Slim::getInstance()->getLog()->warn("$key: $value");
         }
     }
 
     // Mimic flourish ActiveRecord
     public function toJSON() {
-        $recipe_values = $this->recipe->getValues();
-        $recipe_values['image_url'] = 'http://' . $_SERVER['SERVER_NAME'] . "/" . $this->recipe->getImageFilename();
-
         $all_values = array('success' => !$this->errors,
                             'errors' => $this->errors,
-                            'recipe' => $recipe_values,
-                            'recipe_items' => $this->items,
-                            'default_reminders' => $this->default_reminders,
-                            'scheduled_make' => $this->scheduled_make,
+                            'results' => $this->results,
                             );
         
         return json_encode($all_values);

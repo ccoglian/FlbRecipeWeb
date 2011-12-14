@@ -15,9 +15,14 @@ class LoginModel {
             }
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
+            Slim::getInstance()->getLog()->error($e);
         }
 
         $this->errors['email'] = 'Email address or password incorrect. Please try again.';
+
+        foreach ($this->errors as $key => $value) {
+            Slim::getInstance()->getLog()->warn("$key: $value");
+        }
     }
 
     // Mimic flourish ActiveRecord

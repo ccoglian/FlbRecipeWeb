@@ -69,6 +69,15 @@ $app->map('/recipe/save/', function () use($app) {
     $app->response()->header('Access-Control-Allow-Origin', '*');
 })->via('GET', 'POST');
 
+$app->map('/recipe/delete/:id', function ($id) use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new DeleteRecipeModel($id)
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
 $app->map('/search/:key', function ($key) use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
@@ -181,6 +190,15 @@ $app->map('/units', function () use($app) {
     $app->render('raw.php', array(
         'view' => 'raw',
         'obj' => new UnitsModel()
+    ));
+    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
+    $app->response()->header('Access-Control-Allow-Origin', '*');
+})->via('GET', 'POST');
+
+$app->map('/unit/add/', function () use($app) {
+    $app->render('raw.php', array(
+        'view' => 'raw',
+        'obj' => new UnitAddModel()
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');

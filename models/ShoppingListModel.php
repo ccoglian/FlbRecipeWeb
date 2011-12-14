@@ -8,18 +8,17 @@ class ShoppingListModel {
 
     public function __construct($user_id) {
         try {
-            global $mysql_db;
+            global $db;
 
-            $resultSet = $mysql_db->query(
-                    "SELECT ri.item_name, ri.unit_id, sli.active,
+            $resultSet = $db->query(
+                    "SELECT sli.item_name, sli.unit_id, sli.active,
                             MAX(n.unit_name) as unit_name, MAX(n.unit_name_plural) as unit_name_plural,
-                            SUM(ri.quantity) as quantity,
+                            SUM(sli.quantity) as quantity,
                             GROUP_CONCAT(sli.shopping_list_item_id) as shopping_list_item_ids
-                     FROM   shopping_list_items sli, recipe_items ri, units n
+                     FROM   shopping_list_items sli, units n
                      WHERE  sli.user_id = %i
-                     AND    sli.recipe_item_id = ri.recipe_item_id
-                     AND    ri.unit_id = n.unit_id
-                     GROUP BY ri.item_name, ri.unit_id, sli.active", $user_id);
+                     AND    sli.unit_id = n.unit_id
+                     GROUP BY sli.item_name, sli.unit_id, sli.active", $user_id);
 
             $shoppingListItems = array();
             foreach ($resultSet as $obj) {
@@ -37,6 +36,11 @@ class ShoppingListModel {
             $this->results['extraShoppingListItems'] = $extraShoppingListItems;
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
+            Slim::getInstance()->getLog()->error($e);
+        }
+
+        foreach ($this->errors as $key => $value) {
+            Slim::getInstance()->getLog()->warn("$key: $value");
         }
     }
 

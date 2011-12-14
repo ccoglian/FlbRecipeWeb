@@ -103,9 +103,9 @@ fAuthorization::setLoginPage('/login/');
 fTimestamp::setDefaultTimezone('GMT');
 
 // MySQL setup
-$mysql_db  = new fDatabase('mysql', 'flb', 'flb', 'WelcomeFlbSinger', 'localhost');
-//$mysql_db->enableDebugging(TRUE);
-fORMDatabase::attach($mysql_db);
+$db  = new fDatabase('mysql', 'flb', 'flb', 'WelcomeFlbSinger', 'localhost');
+//$db->enableDebugging(TRUE);
+fORMDatabase::attach($db);
 fORM::mapClassToTable('RecipeSearch', 'recipe_search');
 fORMJSON::extend(); // adds the toJSON method to fActiveRecord
 ?>

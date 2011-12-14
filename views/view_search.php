@@ -1,8 +1,8 @@
 <?php
-global $mysql_db;
+global $db;
 
 $results = array();
-$resultSet = $mysql_db->query("SELECT r.*
+$resultSet = $db->query("SELECT r.*
                                FROM   flb.recipes r
                                       JOIN flb.recipe_search s ON r.recipe_id = s.recipe_id
                                WHERE MATCH (full_recipe_text)

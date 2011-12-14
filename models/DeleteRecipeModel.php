@@ -2,14 +2,14 @@
 /**
  * @author ccoglianese
  */
-class ToggleExtraShoppingListItemActiveModel {
+class DeleteRecipeModel {
     private $errors = array();
 
-    public function __construct($extra_shopping_list_item_id) {
+    public function __construct($id) {
         try {
-            $item = new ExtraShoppingListItem($extra_shopping_list_item_id);
-            $item->setActive($item->getActive() ? 0 : 1);
-            $item->store();
+            $recipe = new Recipe($id);
+            $recipe->setActive(0);
+            $recipe->store();
         } catch (Exception $e) {
             $this->errors['exception'] = $e->getMessage();
             Slim::getInstance()->getLog()->error($e);
@@ -23,8 +23,7 @@ class ToggleExtraShoppingListItemActiveModel {
     // Mimic flourish ActiveRecord
     public function toJSON() {
         $all_values = array('success' => !$this->errors,
-                            'errors' => $this->errors,
-                            );
+                            'errors' => $this->errors);
         
         return json_encode($all_values);
     }
