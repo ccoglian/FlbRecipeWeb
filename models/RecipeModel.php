@@ -6,12 +6,16 @@ class RecipeModel {
     private $errors = array();
     private $results = array();
 
+    public static function getRecipeImageDir() {
+        return "img/uploads/";
+    }
+
     public function __construct($recipe_id) {
         try {
             $recipe = new Recipe($recipe_id);
             $recipe_values = $recipe->getValues();
             if ($recipe->getImageFilename())
-                $recipe_values['image_url'] = 'http://' . $_SERVER['SERVER_NAME'] . "/" . $recipe->getImageFilename();
+                $recipe_values['image_url'] = 'http://' . $_SERVER['SERVER_NAME'] . "/" . RecipeModel::getRecipeImageDir() . $recipe->getImageFilename();
             $this->results['recipe'] = $recipe_values;
 
             $filter = array('recipe_id=' => $recipe_id);

@@ -1,0 +1,1 @@
+This folder will store all uploaded images for all recipes.

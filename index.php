@@ -42,166 +42,89 @@ $app = new Slim(array(
  * The routes below work with PHP >= 5.3.
  */
 
-$app->map('/recipe/:id', function ($id) use($app) {
+function renderRawModel($app, $model) {
     $app->render('raw.php', array(
         'view' => 'raw',
-        'obj' => new RecipeModel($id)
+        'obj' => $model
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
     $app->response()->header('Access-Control-Allow-Origin', '*');
+}
+
+$app->map('/recipe/:id', function ($id) use($app) {
+    renderRawModel($app, new RecipeModel($id));
 })->via('GET', 'POST');
 
 $app->map('/recipe/search/:id', function ($id) use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new RecipeSearchModel($id)
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new RecipeSearchModel($id));
 })->via('GET', 'POST');
 
 $app->map('/recipe/save/', function () use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new RecipeSaveModel()
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new RecipeSaveModel());
+})->via('GET', 'POST');
+
+$app->map('/recipe/image/add/:id', function ($id) use($app) {
+    renderRawModel($app, new RecipeAddImageModel($id));
 })->via('GET', 'POST');
 
 $app->map('/recipe/delete/:id', function ($id) use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new DeleteRecipeModel($id)
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new DeleteRecipeModel($id));
 })->via('GET', 'POST');
 
 $app->map('/search/:key', function ($key) use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new SearchModel($key)
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new SearchModel($key));
 })->via('GET', 'POST');
 
 $app->map('/makes/:user_id', function ($user_id) use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new MakesModel($user_id)
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new MakesModel($user_id));
 })->via('GET', 'POST');
 
 $app->map('/deletemake/:id', function ($id) use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new DeleteMakesModel($id)
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new DeleteMakesModel($id));
 })->via('GET', 'POST');
 
 $app->map('/shoppinglist/:user_id', function ($user_id) use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new ShoppingListModel($user_id)
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new ShoppingListModel($user_id));
 })->via('GET', 'POST');
 
 $app->map('/shoppinglist/add/:id', function ($id) use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new AddToShoppingListModel($id)
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new AddToShoppingListModel($id));
 })->via('GET', 'POST');
 
 $app->map('/shoppinglist/addextra/', function () use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new AddExtraToShoppingListModel()
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new AddExtraToShoppingListModel());
 })->via('GET', 'POST');
 
 $app->map('/shoppinglist/toggleactive/:id', function ($id) use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new ToggleShoppingListItemActiveModel($id)
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new ToggleShoppingListItemActiveModel($id));
 })->via('GET', 'POST');
 
 $app->map('/shoppinglist/toggleactive/extra/:id', function ($id) use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new ToggleExtraShoppingListItemActiveModel($id)
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new ToggleExtraShoppingListItemActiveModel($id));
 })->via('GET', 'POST');
 
 $app->map('/shoppinglist/clear/:user_id', function ($user_id) use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new ClearShoppingListModel($user_id)
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new ClearShoppingListModel($user_id));
 })->via('GET', 'POST');
 
 $app->map('/makeit', function () use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new MakeitModel()
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new MakeitModel());
 })->via('GET', 'POST');
 
 $app->map('/login', function () use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new LoginModel()
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new LoginModel());
 })->via('GET', 'POST');
 
 $app->map('/signup', function () use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new SignupModel()
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new SignupModel());
 })->via('GET', 'POST');
 
 $app->map('/units', function () use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new UnitsModel()
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new UnitsModel());
 })->via('GET', 'POST');
 
 $app->map('/unit/add/', function () use($app) {
-    $app->render('raw.php', array(
-        'view' => 'raw',
-        'obj' => new UnitAddModel()
-    ));
-    $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    renderRawModel($app, new UnitAddModel());
 })->via('GET', 'POST');
 
 /**
