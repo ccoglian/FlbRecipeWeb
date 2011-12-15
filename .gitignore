@@ -1,1 +1,5 @@
 nbproject/*
+inc/Slim/logs/*.log
+img/uploads/*
+img/uploads/README.txt
+
