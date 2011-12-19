@@ -3,7 +3,7 @@
 # Server version:               5.5.8
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-12-09 12:11:43
+# Date/time:                    2011-12-19 14:08:05
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -39,8 +39,14 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `description` varchar(511) NOT NULL,
   `instructions` text NOT NULL,
   `serves` varchar(255) NOT NULL,
-  `image_filename` varchar(255) NOT NULL,
-  PRIMARY KEY (`recipe_id`)
+  `image_filename` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_by` int(11) NOT NULL,
+  `date_created` datetime DEFAULT NULL,
+  `date_updated` datetime DEFAULT NULL,
+  PRIMARY KEY (`recipe_id`),
+  KEY `FK_recipes_users` (`created_by`),
+  CONSTRAINT `FK_recipes_users` FOREIGN KEY (`created_by`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Data exporting was unselected.
@@ -55,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `recipe_items` (
   `unit_id` int(11) NOT NULL,
   `item_name` varchar(127) NOT NULL,
   `comments` varchar(255) DEFAULT NULL,
+  `order_key` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`recipe_item_id`),
   KEY `FK_recipe_items_recipes` (`recipe_id`),
   KEY `FK_recipe_items_units` (`unit_id`),
@@ -116,13 +123,12 @@ CREATE TABLE IF NOT EXISTS `scheduled_reminders` (
   `scheduled_reminder_id` int(11) NOT NULL AUTO_INCREMENT,
   `scheduled_make_id` int(11) NOT NULL,
   `recipe_reminder_id` int(11) NOT NULL,
+  `description` varchar(255) NOT NULL DEFAULT '',
   `local_time` datetime NOT NULL,
   `server_time` datetime DEFAULT NULL,
   PRIMARY KEY (`scheduled_reminder_id`),
-  KEY `FK_scheduled_reminders_recipe_reminders` (`recipe_reminder_id`),
   KEY `FK_scheduled_reminders_scheduled_makes` (`scheduled_make_id`),
-  CONSTRAINT `FK_scheduled_reminders_scheduled_makes` FOREIGN KEY (`scheduled_make_id`) REFERENCES `scheduled_makes` (`scheduled_make_id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_scheduled_reminders_recipe_reminders` FOREIGN KEY (`recipe_reminder_id`) REFERENCES `recipe_reminders` (`recipe_reminder_id`)
+  CONSTRAINT `FK_scheduled_reminders_scheduled_makes` FOREIGN KEY (`scheduled_make_id`) REFERENCES `scheduled_makes` (`scheduled_make_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Data exporting was unselected.
@@ -133,12 +139,12 @@ DROP TABLE IF EXISTS `shopping_list_items`;
 CREATE TABLE IF NOT EXISTS `shopping_list_items` (
   `shopping_list_item_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0',
-  `recipe_item_id` int(11) NOT NULL DEFAULT '0',
+  `quantity` double DEFAULT '0',
+  `unit_id` int(11) DEFAULT '0',
+  `item_name` varchar(255) DEFAULT '',
   `active` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`shopping_list_item_id`),
-  KEY `Index 2` (`user_id`,`recipe_item_id`),
-  KEY `FK__recipe_items` (`recipe_item_id`),
-  CONSTRAINT `FK__recipe_items` FOREIGN KEY (`recipe_item_id`) REFERENCES `recipe_items` (`recipe_item_id`),
+  KEY `Index 2` (`user_id`),
   CONSTRAINT `FK__users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
