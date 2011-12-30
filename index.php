@@ -48,8 +48,17 @@ function renderRawModel($app, $model) {
         'obj' => $model
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
-    $app->response()->header('Access-Control-Allow-Origin', '*');
+    // this is no longer needed as it is now added in the Apache config
+//    $app->response()->header('Access-Control-Allow-Origin', '*');
 }
+
+$app->map('/', function () use($app) {
+    echo "Index";
+})->via('GET', 'POST');
+
+$app->map('/home', function () use($app) {
+    echo "Home";
+})->via('GET', 'POST');
 
 $app->map('/recipe/:id', function ($id) use($app) {
     renderRawModel($app, new RecipeModel($id));

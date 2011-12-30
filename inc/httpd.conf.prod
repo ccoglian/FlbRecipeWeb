@@ -229,9 +229,9 @@ DocumentRoot "/opt/flb/FigLeafBetty/assets/www"
     # It can be "All", "None", or any combination of the keywords:
     #   Options FileInfo AuthConfig Limit
     #
-    #AllowOverride None
+    AllowOverride None
     # since XAMPP 1.4:
-    AllowOverride All
+    #AllowOverride All
 
 
     #
