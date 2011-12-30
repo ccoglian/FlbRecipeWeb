@@ -48,11 +48,10 @@ NameVirtualHost *:80
     Order allow,deny
     Allow from all
 
-
     # Slim setup
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ /index.php [QSA,L]
+    RewriteRule ^(.*)$ index.php [QSA,L]
 </Directory>
 
 
