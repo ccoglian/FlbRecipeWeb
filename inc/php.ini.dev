@@ -430,7 +430,7 @@ disable_classes =
 ; threat in any way, but it makes it possible to determine whether you use PHP
 ; on your server or not.
 ; http://php.net/expose-php
-expose_php = On
+expose_php = Off
 
 ;;;;;;;;;;;;;;;;;;;
 ; Resource Limits ;
@@ -530,7 +530,7 @@ error_reporting = E_ALL | E_STRICT
 ; Development Value: On
 ; Production Value: Off
 ; http://php.net/display-errors
-display_errors = On
+display_errors = On ; Off in Prod!
 
 ; The display of errors which occur during PHP's startup sequence are handled
 ; separately from display_errors. PHP's default behavior is to suppress those
@@ -541,7 +541,7 @@ display_errors = On
 ; Development Value: On
 ; Production Value: Off
 ; http://php.net/display-startup-errors
-display_startup_errors = On
+display_startup_errors = On ; Off in Prod!
 
 ; Besides displaying errors, PHP can also log errors to locations such as a
 ; server-specific log, STDERR, or a location specified by the error_log
@@ -603,7 +603,7 @@ track_errors = On
 ; Development Value: On
 ; Production value: Off
 ; http://php.net/html-errors
-html_errors = On
+html_errors = On ; Off in Prod!
 
 ; If html_errors is set On PHP produces clickable error messages that direct
 ; to a page describing the error or function causing the error in detail.
@@ -1493,7 +1493,7 @@ session.use_only_cookies = 0
 
 ; Name of the session (used as cookie name).
 ; http://php.net/session.name
-session.name = PHPSESSID
+session.name = Backend_Session_ID
 
 ; Initialize session on request startup.
 ; http://php.net/session.auto-start
@@ -1548,7 +1548,7 @@ session.gc_divisor = 100
 ; After this number of seconds, stored data will be seen as 'garbage' and
 ; cleaned up by the garbage collection process.
 ; http://php.net/session.gc-maxlifetime
-session.gc_maxlifetime = 1440
+session.gc_maxlifetime = 43200
 
 ; NOTE: If you are using the subdirectory option for storing session files
 ;       (see session.save_path above), then garbage collection does *not*
@@ -1943,7 +1943,7 @@ eaccelerator.debug = 0
 eaccelerator.check_mtime = "1"
 
 ; Determine which PHP files must be cached. You may specify the number of
-; patterns (for example "* *.phtml") which specifies to cache or
+; patterns (for example "*.php *.phtml") which specifies to cache or
 ; not to cache. If pattern starts with the character "!", it means to ignore
 ; files which are matched by the following pattern. Default value is "" that
 ; means - all PHP scripts will be cached.
@@ -2077,10 +2077,10 @@ zend_extension = "C:\xampp\php\ext\php_xdebug.dll"
 ;xdebug.idekey = ""
 
 ; xdebug.manual_url
-; Type: string, Default value: http://www.net
+; Type: string, Default value: http://www.php.net
 ; This is the base url for the links from the function traces and error message to the manual pages
 ; of the function from the message. It is advisable to set this setting to use the closest mirror.
-;xdebug.manual_url = "http://www.net"
+;xdebug.manual_url = "http://www.php.net"
 
 ; xdebug.max_nesting_level
 ; Type: integer, Default value: 100
@@ -2144,20 +2144,20 @@ xdebug.profiler_output_name = "xdebug_profile.%R::%u"
 ; This switch controls whether Xdebug should try to contact a debug client which is listening on the
 ; host and port as set with the settings xdebug.remote_host and xdebug.remote_port. If a connection
 ; can not be established the script will just continue as if this setting was Off.
-xdebug.remote_enable = on
+xdebug.remote_enable = on 
 
 ; xdebug.remote_handler
 ; Type: string, Default value: dbgp
 ; Can be either 'php3' which selects the old PHP 3 style debugger output, 'gdb' which enables the GDB
 ; like debugger interface or 'dbgp' - the brand new debugger protocol. The DBGp protocol is more
 ; widely supported by clients. See more information in the introduction for Remote Debugging.
-xdebug.remote_handler = "dbgp"
+;xdebug.remote_handler = "dbgp"
 
 ; xdebug.remote_host
 ; Type: string, Default value: localhost
 ; Selects the host where the debug client is running, you can either use a host name or an IP
 ; address.
-xdebug.remote_host = "local.figleafbetty.com"
+;xdebug.remote_host = "localhost"
 
 ; xdebug.remote_log
 ; Type: string, Default value: none
