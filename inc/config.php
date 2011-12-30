@@ -100,7 +100,7 @@ function no_break($str) {
 }
 
 fAuthorization::setLoginPage('/login/');
-fTimestamp::setDefaultTimezone('GMT');
+fTimestamp::setDefaultTimezone('UTC');
 
 // MySQL setup
 $db  = new fDatabase('mysql', 'flb', 'flb', 'WelcomeFlbSinger', 'localhost');

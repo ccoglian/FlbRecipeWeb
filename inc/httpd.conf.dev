@@ -220,7 +220,7 @@ DocumentRoot "C:/xampp/htdocs"
     # http://httpd.apache.org/docs/2.2/mod/core.html#options
     # for more information.
     #
-    Options Indexes FollowSymLinks Includes ExecCGI MultiViews
+    Options FollowSymLinks Includes
 
     #
     # AllowOverride controls what directives may be placed in .htaccess files.
