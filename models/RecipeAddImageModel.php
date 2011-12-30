@@ -8,7 +8,7 @@ class RecipeAddImageModel {
 
     public function __construct($recipe_id) {
         try {
-            $filename = $this->saveFile();
+            $filename = $this->saveFile($recipe_id);
 
             if ($filename) {
                 $recipe = new Recipe($recipe_id);
@@ -25,7 +25,7 @@ class RecipeAddImageModel {
         }
     }
 
-    private function saveFile() {
+    private function saveFile($recipe_id) {
         $filename = NULL;
         
         if ($_FILES["image"]["type"] == "image/gif"
@@ -45,6 +45,9 @@ class RecipeAddImageModel {
                 $filename = $_FILES["image"]["name"];
                 $path_parts = pathinfo($filename);
                 $ext = $path_parts['extension'];
+                $timestamp = new fTimestamp();
+                $timestamp_str = $timestamp->format("YmdHis");
+                $filename = "$recipe_id.$timestamp_str.$ext";
                 if (file_exists($dir . $filename)) {
                     $filename = $path_parts['filename'] . "-" . $i . "." . $ext;
                     while (file_exists($dir . $filename)) {
