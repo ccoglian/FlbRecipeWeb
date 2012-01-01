@@ -44,7 +44,7 @@ $app = new Slim(array(
 
 function renderRawModel($app, $model) {
     $app->render('raw.php', array(
-        'view' => 'raw',
+        'view' => 'json',
         'obj' => $model
     ));
     $app->response()->header('Content-Type', 'application/json; charset=utf-8');
